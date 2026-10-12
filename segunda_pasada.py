@@ -12,14 +12,16 @@ Se corre desde la carpeta del repo:
     python3 segunda_pasada.py borrador.md --autor claude --limite 240
 
 Ruteo:
-  --autor claude (o gemini)  → pasada de GPT con la CLI `codex`
+  --autor claude             → pasada de GPT con la CLI `codex`
   --autor gpt                → pasada de Claude con la CLI `claude`
+  --autor gemini             → `codex` si está instalada; si no, `claude`
   sin la CLI rival           → imprime el prompt y el borrador para pegarlos a mano
                                en el chat de la otra familia, y sale con 127
 
 La salida estándar es el texto editado; la salida de error, las notas de cambios.
-Códigos: 0 bien · 66 borrador ilegible o vacío · 124 se pasó del tiempo · 127 no hay
-CLI rival. Siempre volver a correr el checker sobre el resultado:
+Códigos: 0 bien · 66 borrador ilegible, no UTF-8 o vacío · 70 la CLI rival falló ·
+124 se pasó del tiempo · 127 no hay CLI rival. Siempre volver a correr el checker sobre
+el resultado:
 
     python3 slop_monstruo.py limpio.md
 """
@@ -91,8 +93,10 @@ def correr(cmd, limite):
         sys.exit(124)
     if r.returncode != 0:
         sys.stderr.write(r.stderr)
+        # Un código fijo y no el de la CLI: si la CLI saliera con 127, se confundiría
+        # con «no hay CLI rival», que promete el prompt en la salida estándar.
         print(f'segunda-pasada: la CLI salió con {r.returncode}', file=sys.stderr)
-        sys.exit(r.returncode)
+        sys.exit(70)
     return r.stdout
 
 
@@ -108,7 +112,7 @@ def main():
     # Sin esto, un nombre mal tipeado mandaba un borrador VACÍO a una llamada paga.
     try:
         borrador = ruta.read_text(encoding='utf-8')
-    except OSError:
+    except (OSError, UnicodeDecodeError):
         print(f'segunda-pasada: no puedo leer {ruta}', file=sys.stderr)
         return 66
     if not borrador.strip():

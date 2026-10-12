@@ -22,17 +22,17 @@ sale del material real del autor o queda como `[DATO: …]`.
 
 **El superlativo vacío**
 > ~~La herramienta más revolucionaria del momento.~~
-> **La uso todas las semanas para armar el paquete de publicación.**
+> **La uso todas las semanas para escribir las descripciones de mis videos.**
 > `La más revolucionaria` no se puede refutar, así que el lector la descuenta entera.
 > Sin una demo que la respalde, es humo.
 
 **Rayas apiladas**
 > ~~El agente — entrenado, probado y listo — te espera.~~
-> **El agente corre con el brief que armaste en el paso anterior.**
-> Una raya en un párrafo es puntuación. Tres es un tic.
+> **El agente corre con el brief que le pasaste.**
+> Una raya en un párrafo es puntuación. Dos en la misma oración ya son un tic.
 
 **La prueba hueca**
 > ~~Más de 10.000 creadores ya lo usan.~~
 > **[DATO: cuántas personas lo usan, con fuente] — si no hay dato, la oración se corta.**
-> Inventar un número es el único error sin vuelta atrás. Mejor decir que
-> el espacio está vacío.
+> Inventar un número es el único error sin vuelta atrás. Mejor decir que el espacio
+> está vacío.

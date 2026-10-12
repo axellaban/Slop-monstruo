@@ -28,10 +28,9 @@ cd Slop-monstruo
 # Revisar un texto corto. Da 3/5 y sale con 1.
 python3 slop_monstruo.py --texto "No es solo una herramienta, es un viaje revolucionario."
 
-# Revisar un archivo
-python3 slop_monstruo.py borrador.md
-python3 slop_monstruo.py borrador.txt
-python3 slop_monstruo.py pagina.html
+# Revisar un archivo .md, .txt o .html. Estos dos dan 5/5.
+python3 slop_monstruo.py README.md
+python3 slop_monstruo.py ejemplos/muestra-ci.txt
 ```
 
 Cada categoría con hallazgos resta un punto, sin importar cuántos tenga. Sale con 0 en
@@ -40,7 +39,8 @@ Cada categoría con hallazgos resta un punto, sin importar cuántos tenga. Sale 
 En Markdown se saltean los bloques de código, el código en línea, las imágenes y los
 ejemplos tachados. En HTML se sacan las etiquetas y el contenido de script y style. No
 renderiza la página, así que el texto escondido por CSS puede entrar igual. Un `.txt` se
-lee como texto plano.
+lee como texto plano. Cualquier otra extensión se lee como HTML. Para un borrador en
+Markdown sin extensión, agregá `--markdown`.
 
 ## Usarlo como skill
 
@@ -57,7 +57,7 @@ Con Codex u otro agente, pedile que siga [SKILL.md](SKILL.md).
 ## Editar un borrador
 
 Pasale al agente el archivo. Si no se deduce del texto, aclarale quién lo va a leer y
-dónde va a aparecer.
+dónde va a aparecer. El agente sigue estos pasos:
 
 1. Corre el checker para ver los patrones que reconoce.
 2. Revisa el propósito y el orden. Un guion arranca por la promesa y la prueba. Una
@@ -86,8 +86,9 @@ estándar y las notas de cambios por la de error. Usa el modelo que tenga config
 CLI instalada.
 
 Si falta la CLI rival, imprime el prompt y el borrador y sale con 127: pegalo en el chat
-de la otra familia. Si se pasa del tiempo, sale con 124. Revisá el código de salida
-antes de tratar lo que salió como un texto editado.
+de la otra familia. Si la CLI rival falla, muestra su error y sale con 70. Si se pasa
+del tiempo, sale con 124. Revisá el código de salida antes de tratar lo que salió como
+un texto editado.
 
 Otro modelo da otra pasada de edición. No garantiza mejor escritura. Revisá el resultado
 buscando hechos cambiados y contexto perdido antes de aceptarlo.
@@ -116,8 +117,8 @@ Sigue mostrando la cifra pero deja de restar. No verifica la evidencia.
 
 ## Qué cambia respecto de SlopMonster
 
-SlopMonster busca patrones del inglés. Este texto en español le da 5/5, limpio, porque
-ninguna de sus reglas coincide:
+SlopMonster busca patrones del inglés. A este texto en español le da 5/5, limpio,
+porque ninguna de sus reglas coincide:
 
 > ~~No es solo una herramienta, es un viaje revolucionario. Potenciamos tu negocio con
 > una solución robusta y sin fisuras. Más de 10.000 usuarios felices. Es rápido, simple y
@@ -128,9 +129,10 @@ vocabulario, la terna del final y la cifra de usuarios sin respaldo.
 
 Mantiene las cinco categorías y el flujo de edición del original, y cambia esto:
 
-- **Vocabulario con flexiones.** El español cambia la palabra según el género, el número
-  o la persona, así que cada palabra tiene su propia regex: `potenciamos`, `potenciado` y
-  `potenciar` caen en la misma regla.
+- **Una regex por palabra.** El original recorta sufijos para cazar las flexiones del
+  inglés. En español un recorte así mezclaría el verbo `potenciar` con el sustantivo
+  `potencia`, así que cada palabra tiene su propia regex: `potenciamos`, `potenciado` y
+  `potenciar` caen en la misma regla, y "la potencia del motor" no.
 - **Sin tildes al comparar.** `sólo` y `solo`, `imaginá` e `imagina` matchean igual, sin
   duplicar cada patrón.
 - **Construcciones del español.** El sujeto se cae (`no es solo una herramienta, es un
@@ -142,9 +144,8 @@ Mantiene las cinco categorías y el flujo de edición del original, y cambia est
   clientes, con cifras como `10.000` o `3,5 millones`.
 - **Segunda pasada en Python.** El original la hace con un script de bash. Esta versión
   corre con Python, no necesita bash y elige la familia rival con `--autor`.
-- **La variante del autor se respeta.** El prompt de la segunda pasada mantiene el voseo,
-  el tuteo o el usted del borrador, y deja `[DATO: …]` donde falta un dato en vez de
-  inventarlo.
+- **La variante del autor se respeta.** El prompt de la segunda pasada pide mantener el
+  voseo, el tuteo o el usted del borrador, sin pasarlo a otra variante del español.
 
 ## Límites
 
@@ -154,7 +155,7 @@ queda igual que el sustantivo `potencia` y no se caza. Un texto en otro idioma p
 
 Puede marcar lenguaje común y dejar pasar texto malo. No sabe quién escribió el texto,
 no verifica datos y no juzga si un gancho le queda al público. Sus hallazgos son puntos
-para revisar. Un 5/5 solo no prueba que el texto esté bien escrito.
+para revisar. Un 5/5 por sí solo no prueba que el texto esté bien escrito.
 
 ## Control en CI
 
@@ -180,12 +181,12 @@ python3 slop_monstruo.py README.md
 
 ## Licencia
 
-[MIT](LICENSE). Slop Monstruo es de Axel Laban y parte de SlopMonster, de Jack Roberts,
-que también es MIT. Si lo copiás o lo modificás, conservá el archivo `LICENSE` con los
-dos avisos de copyright.
+[MIT](LICENSE). Slop Monstruo es de Axel Laban y se basa en SlopMonster, de Jack
+Roberts, que también es MIT. Si lo copiás o lo modificás, conservá el archivo `LICENSE`
+con los dos avisos de copyright.
 
 ## In English
 
-Slop Monstruo is a Spanish adaptation of Jack Roberts' SlopMonster by Axel Laban. The
+Slop Monstruo, by Axel Laban, is a Spanish adaptation of Jack Roberts' SlopMonster. The
 checker rules are rewritten for Spanish grammar and the second pass runs in Python. MIT
 license.

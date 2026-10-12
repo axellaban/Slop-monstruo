@@ -54,6 +54,12 @@ with open(vacio, 'w', encoding='utf-8') as fh:
     fh.write('   \n')
 chequear('borrador vacío sale con 66', correr(vacio).returncode == 66)
 chequear('borrador inexistente sale con 66', correr(os.path.join(_dir, 'no.md')).returncode == 66)
+latin1 = os.path.join(_dir, 'latin1.md')
+with open(latin1, 'wb') as fh:
+    fh.write('Un borrador con tildes: canción.\n'.encode('latin-1'))
+r = correr(latin1)
+chequear('borrador que no es UTF-8 sale con 66', r.returncode == 66, f'salida {r.returncode}')
+chequear('borrador que no es UTF-8 sin traceback', 'Traceback' not in r.stderr, r.stderr[-160:])
 
 borrador = os.path.join(_dir, 'borrador.md')
 with open(borrador, 'w', encoding='utf-8') as fh:
@@ -62,6 +68,20 @@ r = correr(borrador, '--autor', 'claude', path=_dir)
 chequear('sin CLI rival sale con 127', r.returncode == 127, f'salida {r.returncode}')
 chequear('sin CLI rival imprime el prompt y el borrador',
          'TEXTO PARA EDITAR' in r.stdout and 'es un sistema' in r.stdout, r.stdout[-160:])
+
+# ── si la CLI rival falla, sale con 70 y no con el código de la CLI ──────
+# Un 127 de la CLI se confundiría con «no hay CLI rival». Sólo en sistemas con /bin/sh.
+if os.name != 'nt':
+    _bin = tempfile.mkdtemp()
+    for cli, codigo in (('codex', 3), ('claude', 127)):
+        falsa = os.path.join(_bin, cli)
+        with open(falsa, 'w', encoding='utf-8') as fh:
+            fh.write(f'#!/bin/sh\necho falla >&2\nexit {codigo}\n')
+        os.chmod(falsa, 0o755)
+    for autor in ('claude', 'gpt'):
+        r = correr(borrador, '--autor', autor, path=_bin)
+        chequear(f'CLI rival que falla sale con 70 (--autor {autor})', r.returncode == 70,
+                 f'salida {r.returncode}')
 
 if fallas:
     print(f'{len(fallas)} FALLARON\n')

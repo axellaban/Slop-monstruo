@@ -105,8 +105,8 @@ cantidad de ítems no dice quién la escribió.
 Nunca inventes cantidades de clientes, suscriptores, alumnos ni otra evidencia. El
 checker marca números cerca de ciertos sustantivos, pero no puede saber si están
 respaldados. Verificá el dato con el autor o con su fuente antes de usar
-`--permitir-prueba`, que deja el aviso y saca la penalidad.
-Revisá también fechas y especificaciones, aunque ninguna regla las marque.
+`--permitir-prueba`, que deja el aviso y saca la penalidad. Revisá también fechas y
+especificaciones, aunque ninguna regla las marque.
 
 ---
 

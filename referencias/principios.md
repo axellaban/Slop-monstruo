@@ -7,9 +7,9 @@ responde ninguna de las preguntas de abajo.
 ## 1. Dale al lector lo que vino a buscar
 
 Identificá qué vino a aprender o a hacer el lector. En un guion, la promesa y la prueba
-van en los primeros segundos. En una descripción de
-YouTube, de qué trata el video va antes que los links. En un README, qué hace la
-herramienta va antes que las integraciones opcionales.
+van en los primeros segundos. En una descripción de YouTube, de qué trata el video va
+antes que los links. En un README, qué hace la herramienta va antes que las
+integraciones opcionales.
 
 *No me hagas pensar*, de Steve Krug, está detrás del énfasis en ahorrarle
 interpretación al lector. Las guías de venta que arrancan por el problema (Daniel
@@ -76,8 +76,8 @@ oraciones siga al contenido. Una lista puede tener tres ítems cuando hay tres �
 
 No impongas una cuota de fragmentos. No inventes una opinión ni un error a propósito
 para que el texto parezca personal: lo que salió mal se cuenta porque pasó, no para
-dar color. En instrucciones, priorizá un orden que el lector pueda seguir
-y comandos que pueda usar.
+dar color. En instrucciones, priorizá un orden que el lector pueda seguir y comandos
+que pueda usar.
 
 Después de editar, compará contra el original buscando cambios de sentido y volvé a
 correr el checker. Revisá en contexto lo que quede marcado y reportá las excepciones

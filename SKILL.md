@@ -37,9 +37,11 @@ python3 slop_monstruo.py --texto "un párrafo corto"
 Puntúa cinco categorías: vocabulario, construcciones, puntuación, enumeraciones de a
 tres y prueba posiblemente inventada. Cada categoría con hallazgos resta un punto.
 Debajo de 5/5 sale con 1. La entrada vacía también falla. Para Markdown usá la ruta del
-archivo, así el código y los ejemplos tachados no se puntúan. En HTML, `--vista` puntúa
-un solo elemento: desde su `id` hasta el siguiente `id="view-…"`. Las reglas son de español:
-un texto en otro idioma puede dar 5/5 sin estar limpio.
+archivo, así el código y los ejemplos tachados no se puntúan. Un archivo con otra
+extensión se lee como HTML: si es Markdown sin extensión, agregá `--markdown`. En HTML,
+`--vista` puntúa un solo elemento: desde su `id` hasta el siguiente `id="view-…"`.
+
+Las reglas son de español: un texto en otro idioma puede dar 5/5 sin estar limpio.
 
 ## Paso 2: Revisar y reescribir
 
@@ -83,7 +85,8 @@ El texto editado sale por la salida estándar y las notas por la de error.
 
 Códigos de salida:
 
-- 66: el borrador no se puede leer o está vacío.
+- 66: el borrador no se puede leer, no está en UTF-8 o está vacío.
+- 70: la CLI rival falló. Su error sale por la salida de error.
 - 124: se cortó por tiempo.
 - 127: no hay CLI rival. Lo que salió es el prompt con el borrador, **no** un texto
   editado: pegalo en el chat de la otra familia.

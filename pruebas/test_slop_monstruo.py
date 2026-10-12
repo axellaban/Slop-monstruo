@@ -76,6 +76,7 @@ for mala in ('No es solo una herramienta, es un sistema.',
              'No solo arma el guion, sino que lo revisa.',
              'No solo lo arma, lo publica.',
              'Ya sea que estés empezando o seas experto, esto te sirve.',
+             'Ya seas principiante o experto, esto te sirve.',
              'Si sos principiante o un experto, arrancá acá.',
              'Ahí es donde entra Claude.',
              'Decile adiós a las planillas.',
@@ -93,6 +94,7 @@ for ok in ('No es solo cuestión de plata.',
            'No te creas solo lo que digo.',
            'El lote no es solo pasto, la tierra está seca.',
            'Fijate si sos el dueño o no.',
+           'Ya sea por mail o por teléfono, avisame.',
            'Me imaginaba otra cosa.',
            'No pudimos quedarnos ahí. La lluvia seguía.'):
     chequear('construcción limpia', 'frases' not in grupos(ok), ok)
@@ -115,7 +117,7 @@ chequear('lista con «o» no cuenta',
 
 # ── prueba inventada ───────────────────────────────────────────────────────
 for mala in ('Más de 10.000 usuarios felices.', 'Lo usan +500 empresas.', '10 mil personas ya lo usan.',
-             'Elegido por 25 negocios.', 'Más de 3,5 millones de clientes.', 'Tengo 41 suscriptores.'):
+             'Elegido por 25 negocios.', 'Más de 3,5 millones de clientes.', 'Tengo 120 suscriptores.'):
     chequear('prueba detectada', 'prueba' in grupos(mala), mala)
 for ok in ('Techos, y sólo techos, desde 2001. Los clientes vuelven.',
            'Versión 2.0. Los lectores pueden saltearla.',
@@ -150,6 +152,19 @@ for nombre, cuerpo in (('utf8.html', f'<html><body><p>{_marcas}</p></body></html
     chequear(f'{nombre} no da LIMPIO', r.returncode != 0, r.stdout[:140])
     chequear(f'{nombre}: salta la regla de construcciones', 'construcciones' in r.stdout, r.stdout[:140])
     chequear(f'{nombre}: salta la regla de rayas', 'rayas' in r.stdout, r.stdout[:140])
+
+# ── la extensión se lee sin importar mayúsculas; --markdown fuerza Markdown ──
+_bloque = 'Intro.\n```\ndesbloqueá tu potencial sin fisuras\n```\nCierre.\n'
+for nombre, extra in (('MAYUS.MD', ()), ('largo.markdown', ()), ('sin-extension', ('--markdown',))):
+    ruta = os.path.join(_dir, nombre)
+    with open(ruta, 'w', encoding='utf-8') as fh:
+        fh.write(_bloque)
+    r = correr(ruta, *extra)
+    chequear(f'{nombre} se lee como Markdown', r.returncode == 0, r.stdout[-140:])
+
+r = correr(os.path.join(_dir, 'utf8.html'), '--vista')
+chequear('--vista sin id sale distinto de 0', r.returncode != 0, f'salida {r.returncode}')
+chequear('--vista sin id sin traceback', 'Traceback' not in r.stderr, r.stderr[-160:])
 
 _cjk = os.path.join(_dir, 'cjk.html')
 with open(_cjk, 'w', encoding='utf-8') as fh:

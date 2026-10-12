@@ -8,17 +8,22 @@ Se corre desde la carpeta del repo:
     python3 slop_monstruo.py notas.txt
     python3 slop_monstruo.py pagina.html
     python3 slop_monstruo.py pagina.html --vista view-site
+    python3 slop_monstruo.py borrador --markdown
     python3 slop_monstruo.py --texto "un borrador para revisar"
     python3 slop_monstruo.py guion.md --permitir-prueba
 
 Puntúa sobre 5, una categoría por punto: vocabulario, construcciones, puntuación,
-ritmo de a tres y prueba posiblemente inventada. Debajo de 5 sale con 1. A propósito:
-un texto "casi limpio" es como termina sonando igual que cualquier otro texto de IA.
+ritmo de a tres y prueba posiblemente inventada. Debajo de 5 sale con 1, a propósito:
+un texto "casi limpio" termina sonando como cualquier otro texto de IA.
+
+.md y .markdown se leen como Markdown y .txt como texto plano. Cualquier otro archivo
+se lee como HTML; --markdown fuerza la lectura como Markdown.
 
 Sólo caza lo que una regex puede cazar. No sabe si una cifra es verdadera ni si el texto
 suena a su autor: para eso está la revisión de SKILL.md y referencias/principios.md.
 """
 import html as _html   # con alias: `texto_visible` recibe un parámetro llamado `html`
+import os
 import re
 import sys
 import unicodedata
@@ -102,7 +107,9 @@ _COLA = r"[^!?]{0,80}?[,.;]\s*(?:es|son|tambien|ahora|te|lo|le|les|me|nos|esto|e
 FRASES = [
     (_NO_SOLO + r"[^.!?]{0,80}\bsino\b", "la construcción «no solo X, sino Y»"),
     (_NO_SOLO + _COLA, "la construcción «no es solo X, es Y»"),
-    (r"\bya sea que\b[^.!?]{0,60}\bo\b|\btanto si\b[^.!?]{0,60}\bcomo si\b"
+    # "ya seas" y no "ya sea": "ya sea por mail o por teléfono" es un conector común.
+    (r"\bya sea que\b[^.!?]{0,60}\bo\b|\bya seas\b[^.!?]{0,60}\bo\b"
+     r"|\btanto si\b[^.!?]{0,60}\bcomo si\b"
      r"|\bsi sos\b[^.!?,]{0,40}\bo (?:si )?(?:sos )?(?:un|una)\b",
      "la apertura «ya seas X o Y»"),
     (r"\bmas que (?:un|una) simple\b|\bmucho mas que (?:un|una)\b|\bmas que solo\b",
@@ -334,6 +341,8 @@ def main(args):
     args = [a for a in args if a != '--permitir-prueba']
     como_md = '--markdown' in args
     args = [a for a in args if a != '--markdown']
+    if not args:
+        sys.exit(__doc__)
 
     if args[0] == '--texto':
         texto = ' '.join(args[1:])
@@ -344,14 +353,18 @@ def main(args):
             crudo = leer_utf8(ruta)
         except (FileNotFoundError, IsADirectoryError, PermissionError) as e:
             sys.exit(f'slop-monstruo: no puedo leer {ruta}: {e.strerror}')
-        if ruta.endswith('.md') or como_md:
+        extension = os.path.splitext(ruta)[1].lower().lstrip('.')
+        if extension in ('md', 'markdown') or como_md:
             texto = prosa_markdown(crudo)
-        elif ruta.endswith('.txt'):
+        elif extension == 'txt':
             texto = normalizar(crudo)
         else:
             if '--vista' in args:
                 # puntuar un solo elemento: desde su id= hasta el siguiente id="view-…"
-                vid = args[args.index('--vista') + 1]
+                i = args.index('--vista')
+                if i + 1 >= len(args):
+                    sys.exit('slop-monstruo: --vista necesita un id, por ejemplo --vista view-inicio')
+                vid = args[i + 1]
                 inicio = crudo.find(f'id="{vid}"')
                 if inicio < 0:
                     sys.exit(f'slop-monstruo: no hay ningún elemento con id "{vid}"')
