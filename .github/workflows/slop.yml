@@ -1,0 +1,30 @@
+name: slop monstruo
+
+on: [push, pull_request]
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # El catálogo son regex: las pruebas de regresión son lo único que separa un
+      # ajuste de un checker que quedó medio ciego sin que nadie se entere.
+      - name: Pruebas del checker
+        run: python3 pruebas/test_slop_monstruo.py
+
+      # La separación texto/notas es lo que evita que las notas del modelo terminen
+      # adentro del texto editado. No llama a ningún modelo.
+      - name: Pruebas de la segunda pasada
+        run: python3 pruebas/test_segunda_pasada.py
+
+      - name: Revisar el README
+        run: python3 slop_monstruo.py README.md
+
+      # Este es el control que copiás a tu repo: apuntalo al archivo con el texto
+      # que publicás. Debajo de 5/5 sale distinto de 0 y el build falla.
+      - name: Revisar el texto publicado
+        run: python3 slop_monstruo.py ejemplos/muestra-ci.txt

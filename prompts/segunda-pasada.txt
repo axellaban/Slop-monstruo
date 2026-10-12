@@ -1,0 +1,71 @@
+Editá el borrador de abajo para su lector y su propósito. Deducí el formato y el
+público del contexto que viene con el texto. Respetá la postura del autor y su nivel
+de formalidad. Un guion necesita una promesa concreta temprano. Una descripción de
+YouTube necesita decir de qué trata el video. Un README necesita una explicación clara
+e instrucciones que se puedan seguir.
+
+IDIOMA
+- Respetá la variante del español del borrador. Si usa voseo ("vos armás", "mirá"),
+  tuteo ("tú armas", "mira") o usted, la edición sigue igual. No lo pases a español
+  neutro ni a otra variante, y no cambies el vocabulario regional del autor.
+- Escribí para una persona, no para una audiencia.
+
+PASADA 1: PROPÓSITO Y RECORRIDO
+- Hacé que la apertura responda la primera pregunta del lector sobre el tema.
+- Sacá ganchos duplicados y misterios que demoran información necesaria.
+- Revisá que cada oración agregue algo útil y siga a la anterior.
+- Sacá metáforas repetidas, contrastes vacíos y comparaciones que no explican nada.
+  Describí directamente lo que pasa.
+- Explicá la jerga donde el lector la necesita. Dejá las condiciones pegadas a las
+  afirmaciones.
+- Dejá un resumen final sólo si le sirve al lector de este texto.
+
+PASADA 2: PALABRAS Y CONSTRUCCIONES
+- Cambiá el lenguaje promocional vago por lenguaje directo. Revisá en contexto
+  palabras como "sumergirse", "potenciar", "desbloquear", "sin fisuras", "robusto",
+  "revolucionario", "brutal", "de vanguardia", "llevar al siguiente nivel" y
+  "esto lo cambia todo". Una promesa grande que el texto no respalda, afuera.
+- Sacá construcciones como "no es solo X, es Y", "no solo X, sino Y", "sin X, sin Y,
+  solo Z", "ya seas X o Y", "ahí es donde entra X", "decile adiós a", "imaginá un…"
+  y oraciones vecinas que sólo reetiquetan lo mismo para públicos distintos. Dejá un
+  contraste cuando la diferencia es necesaria para la explicación.
+- Revisá formas de oración repetidas entre párrafos, no sólo palabras sueltas.
+- Cambiá las cautelas apiladas por un verbo que refleje la certeza real del autor.
+- Revisá preguntas que se responden solas ("¿El resultado?") y listas decorativas de a
+  tres. Dejá las preguntas, listas, puntuación y términos técnicos que comunican bien.
+- No agregues emojis.
+
+PASADA 3: CONTEXTO Y EXACTITUD
+- Leé el resultado como un texto completo. ¿Le sirve al lector y al formato?
+- Dejá que el largo de las oraciones siga al sentido. No fuerces oraciones cortas,
+  fragmentos, opiniones, errores a propósito ni otras señales de personalidad.
+- Usá los detalles concretos que ya están en el original donde ayuden. No agregues un
+  número a cada afirmación ni conviertas todo en texto de venta.
+- Revisá que la edición no exagere capacidades, no saque una salvedad y no cambie el
+  argumento del autor.
+
+REGLAS ABSOLUTAS
+- Nunca inventes un dato, una cifra, una cita, un cliente, un logo, una calificación,
+  un caso ni un testimonio.
+- Si falta información necesaria, dejá un marcador claro como [DATO: qué falta] y
+  explicá el hueco en las notas. No adivines.
+- Respetá el significado de los hechos y el comportamiento técnico. Si una afirmación
+  es dudosa, marcala en las notas en vez de reemplazarla en silencio.
+- Respetá exactamente las etiquetas HTML, la estructura Markdown, los links y los
+  marcadores. No agregues links ni llamados a la acción.
+- No toques bloques de código, comandos, código en línea ni ejemplos citados a
+  propósito. Pueden estar documentando justo las construcciones de las que se habla.
+- Respetá el registro del autor. No agregues una opinión que el autor no expresó.
+
+SALIDA
+Devolvé el texto reescrito completo, sin nada antes. Después una línea que contenga
+exactamente
+<<<SLOPMONSTRUO-NOTAS>>>
+y nada más, y después como máximo cinco viñetas con los cambios importantes o las
+dudas sin resolver. Sin preámbulo ni repetición de estas instrucciones.
+
+El marcador lo lee un script. Escribilo exactamente una vez, solo en su línea, sin
+viñeta, comillas ni backticks alrededor, aunque no hayas cambiado nada. Todo lo que
+está arriba vuelve como texto; todo lo de abajo se le muestra al autor como notas.
+
+TEXTO PARA EDITAR:

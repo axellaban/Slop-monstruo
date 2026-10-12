@@ -1,0 +1,1 @@
+Slop Monstruo revisa textos en español y marca construcciones que suelen aparecer cuando escribe una IA. Lo corrés sobre un archivo, leés lo que marcó y decidís qué cambiar. El archivo queda igual.
